@@ -4,12 +4,7 @@
 
 import re
 from game import Game
-from constants import CUBE_COLORS
-
-FILENAME = "input.txt"
-GAME_FIELD = 0
-ROUNDS_FIELD = 1
-GAME_ID_REGEX = r"[0-9]+"
+from constants import *
 
 MaxCubeInput =  {
     CUBE_COLORS.RED: 12,
@@ -23,38 +18,40 @@ MinCubeInput = {
     CUBE_COLORS.BLUE: 0
 }
 
+def GetMinimumNumberOfCubeColorToPlay(game):
+    cubeCounts = []
+    for color, maxValue in MaxCubeInput.items():
+        cubeCounts.append(game.GetMaxOfCubeColorSeen(color))
+    # print(f"Extracted numbers: {cubeCounts}")
+    return cubeCounts
+
+def IsPossible(game):
+    possible = True
+    for color, maxValue in MaxCubeInput.items():
+        if maxValue < game.GetMaxOfCubeColorSeen(color):
+            possible = not possible
+            break
+    return possible
+
 def SumPossibleGames(games):
     sumTotal = 0
     sumPowerTotal = 0
-    cubeCounts = []
-    possible = True
+
     for game in games:
-        possible = True
         print(f"Checking Game {game.GetGameID()}...")
-        for color, maxValue in MaxCubeInput.items():
-            if maxValue < game.GetMaxOfCubeColorSeen(color):
-                possible = not possible
-                break
-        
-        if possible:
+
+        if IsPossible(game):
             print(f"Adding game: {game.GetGameID()}")
             sumTotal += game.GetGameID()
-        
-        for color, maxValue in MaxCubeInput.items():
-            cubeCounts.append(game.GetMaxOfCubeColorSeen(color))
 
         powerTotal = 1
-        print(f"Extracted numbers: {cubeCounts}")
-        for num in cubeCounts:
-            
+        for num in GetMinimumNumberOfCubeColorToPlay(game):
             if num == 0:
                 continue
             else:
                 powerTotal = num * powerTotal
 
         sumPowerTotal += powerTotal
-        powerTotal = 0
-        cubeCounts = []
         
 
     return sumTotal, sumPowerTotal
