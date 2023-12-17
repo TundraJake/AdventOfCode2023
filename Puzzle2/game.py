@@ -1,12 +1,8 @@
 import re
+import sys
 
 HAND_NUMBER_REGEX = r"[0-9]+"
 HAND_COLOR_REGEX = r"[a-z]+"
-
-class CUBE_COLORS(object):
-    RED = "red"
-    GREEN = "green"
-    BLUE = "blue"
 
 class GameRound(object):
 
@@ -35,7 +31,7 @@ class Game(object):
     def __init__(self, gameID, gameRounds):
         self.gameID_ = gameID
         self.gameRounds_ = []
-        
+
         # print(self.GetGameID())
         for round in gameRounds:
             self.gameRounds_.append(GameRound(round))
@@ -47,7 +43,7 @@ class Game(object):
             if maxCount < count:
                 maxCount = count
         return maxCount
-
+    
     def GetGameRounds(self):
         return self.gameRounds_
 
