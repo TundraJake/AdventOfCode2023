@@ -1,5 +1,4 @@
 import re
-import sys
 
 HAND_NUMBER_REGEX = r"[0-9]+"
 HAND_COLOR_REGEX = r"[a-z]+"
