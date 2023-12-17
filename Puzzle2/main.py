@@ -53,11 +53,8 @@ def SumPossibleGames(games):
 
         sumPowerTotal += powerTotal
         
-
     return sumTotal, sumPowerTotal
 
-        
-    
 def ParseInput():
     file = open(FILENAME, "r")
     games = []
@@ -71,10 +68,6 @@ def ParseInput():
         games.append(Game(gameID=gameID, gameRounds=rounds))
 
     return games
-
-
-
-        
 
 if __name__ == "__main__":
     games = ParseInput()
