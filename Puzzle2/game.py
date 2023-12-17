@@ -35,10 +35,7 @@ class Game(object):
     def __init__(self, gameID, gameRounds):
         self.gameID_ = gameID
         self.gameRounds_ = []
-        self.maxRedCubeSeen = 0
-        self.maxGreenCubeSeen = 0
-        self.maxBlueCubeSeen = 0
-
+        
         # print(self.GetGameID())
         for round in gameRounds:
             self.gameRounds_.append(GameRound(round))
