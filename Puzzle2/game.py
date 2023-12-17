@@ -1,6 +1,8 @@
 import re
 
 HAND_NUMBER_REGEX = r"[0-9]+"
+HAND_COLOR_REGEX = r"[a-z]+"
+
 class CUBE_COLORS(object):
     RED = "red"
     GREEN = "green"
@@ -11,32 +13,46 @@ class GameRound(object):
     def __init__(self, round):
 
         # print(round)
-        self.numRedCubes_ = 0
-        self.numGreenCubes_ = 0
-        self.numBlueCubes_ = 0        
+        self.handDescription_ = {}
         
         hands = round.split(",")
         
         for hand in hands:
-            if CUBE_COLORS.RED in hand:
-                self.numRedCubes_ = re.search(HAND_NUMBER_REGEX, hand).group()
-            if CUBE_COLORS.GREEN in hand:
-                self.numGreenCubes_ = re.search(HAND_NUMBER_REGEX, hand).group()
-            if CUBE_COLORS.BLUE in hand:
-                self.numBlueCubes_ = re.search(HAND_NUMBER_REGEX, hand).group()
+            numCubes = int(re.search(HAND_NUMBER_REGEX, hand).group())
+            colorOfCubes = re.search(HAND_COLOR_REGEX, hand).group()
+            self.handDescription_[colorOfCubes] = numCubes
 
-        # print(f"Red: {self.numRedCubes_} Green: {self.numGreenCubes_} Blue: {self.numBlueCubes_}")
-
+        # print(self.handDescription_)
+            
+    def GetCubes(self, color):
+        try:
+            return self.handDescription_[color]
+        except:
+            return 0
 
 class Game(object):
     
     def __init__(self, gameID, gameRounds):
         self.gameID_ = gameID
         self.gameRounds_ = []
+        self.maxRedCubeSeen = 0
+        self.maxGreenCubeSeen = 0
+        self.maxBlueCubeSeen = 0
+
         # print(self.GetGameID())
         for round in gameRounds:
             self.gameRounds_.append(GameRound(round))
+    
+    def GetMaxOfCubeColorSeen(self, color):
+        maxCount = 0
+        for round in self.GetGameRounds():
+            count = round.GetCubes(color)
+            if maxCount < count:
+                maxCount = count
+        return maxCount
 
+    def GetGameRounds(self):
+        return self.gameRounds_
 
     def GetGameID(self):
         return self.gameID_
