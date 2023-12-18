@@ -6,7 +6,24 @@ from constants import *
 from entity import Symbol, Number, Position
 import re 
 
-def DetermineAdjacency(symbolTokens, numberTokens):
+def CalculateSumPuzzlePart2():
+    sum = 0
+    for symbol in symbolTokens:
+        
+        if symbol.GetTokenValue() == MULTIPLY_SYMBOL:
+            integersToMultiply = []
+            for number in numberTokens:
+                if symbol.GetPosition() in number.GetAdjacentPositions() and number.MayAdd():
+                    integersToMultiply.append(number.GetTokenValue())
+                    
+                    if len(integersToMultiply) == 2:
+                        sum += integersToMultiply[0] * integersToMultiply[-1] 
+
+        print(f"Current sum {sum}")
+
+    return sum
+
+def CalculateSumPuzzlePart1():
     sum = 0
     for symbol in symbolTokens:
         for number in numberTokens:
@@ -17,6 +34,11 @@ def DetermineAdjacency(symbolTokens, numberTokens):
 
     return sum
 
+def RunPuzzle(symbolTokens, numberTokens, puzzleType):
+    if puzzleType == PUZZLE_TYPE.PUZZLE_ONE:
+        return CalculateSumPuzzlePart1()
+    return CalculateSumPuzzlePart2()
+
 
 def CreateTokens(rowIndex, row, symbolTokens, numberTokens):
     position = 0
@@ -25,7 +47,6 @@ def CreateTokens(rowIndex, row, symbolTokens, numberTokens):
     currentNumberPositions = []
     while position < numChars:
         currentChar = row[position]
-        print(f"working position {position}")
         if currentChar.isdigit():
             currentNumber += currentChar
             currentNumberPositions.append(Position(rowIndex, position))
@@ -64,5 +85,5 @@ def ParseInput():
                         
 if __name__ == "__main__":
     symbolTokens, numberTokens = ParseInput()
-    sum = DetermineAdjacency(symbolTokens, numberTokens)
+    sum = RunPuzzle(symbolTokens, numberTokens, PUZZLE_TYPE.PUZZLE_TWO)
     print(f"The sum is: {sum}")
