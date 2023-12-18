@@ -6,6 +6,16 @@ from constants import *
 from entity import Symbol, Number, Position
 import re 
 
+def DetermineAdjacency(symbolTokens, numberTokens):
+    sum = 0
+    for symbol in symbolTokens:
+        for number in numberTokens:
+            if symbol.GetPosition() in number.GetAdjacentPositions() and number.MayAdd():
+                sum += number.GetTokenValue()
+
+    return sum
+
+
 def CreateTokens(rowIndex, row, symbolTokens, numberTokens):
     position = 0
     numChars = len(row)
@@ -44,9 +54,11 @@ def ParseInput():
             row = row.strip("\n")
             CreateTokens(rowIndex, row, symbolTokens, numberTokens)
                     
-    PrintTokens(symbolTokens)
-    PrintTokens(numberTokens)
-    return symbolTokens, symbolTokens
+    # PrintTokens(symbolTokens)
+    # PrintTokens(numberTokens)
+    return symbolTokens, numberTokens
                         
 if __name__ == "__main__":
-    symbolTokens, symbolTokens = ParseInput()
+    symbolTokens, numberTokens = ParseInput()
+    sum = DetermineAdjacency(symbolTokens, numberTokens)
+    print(f"The sum is: {sum}")
