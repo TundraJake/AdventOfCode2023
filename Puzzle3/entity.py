@@ -72,9 +72,9 @@ class Number(Entity):
         for index, pos in enumerate(adjacenctPositions):
             gridString += pos.PrintCoordinates().strip("\n")
             
-        print(gridString)
-        for excludePos in excludedPositions:
-            print(excludePos.PrintCoordinates())
+        # print(gridString)
+        # for excludePos in excludedPositions:
+        #     print(excludePos.PrintCoordinates())
         return adjacenctPositions
     
 class Position(object):

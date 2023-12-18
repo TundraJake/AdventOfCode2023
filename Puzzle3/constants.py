@@ -1,7 +1,8 @@
 FILENAME = "input.txt"
 
 SYMBOLS_TO_IGNORE = ["."]
-SYMBOLS = ["!", "@", "#", "$", "%", "^", "&", "*", "+", "-"]
+MULTIPLY_SYMBOL = "*"
+SYMBOLS = ["!", "@", "#", "$", "%", "^", "&", "*", "+", "-", "/", "="]
 
 GAME_FIELD = 0
 ROUNDS_FIELD = 1

@@ -13,6 +13,8 @@ def DetermineAdjacency(symbolTokens, numberTokens):
             if symbol.GetPosition() in number.GetAdjacentPositions() and number.MayAdd():
                 sum += number.GetTokenValue()
 
+        print(f"Current sum {sum}")
+
     return sum
 
 
@@ -23,11 +25,13 @@ def CreateTokens(rowIndex, row, symbolTokens, numberTokens):
     currentNumberPositions = []
     while position < numChars:
         currentChar = row[position]
-
+        print(f"working position {position}")
         if currentChar.isdigit():
             currentNumber += currentChar
             currentNumberPositions.append(Position(rowIndex, position))
-            if row[position + 1] in SYMBOLS_TO_IGNORE or row[position + 1] in SYMBOLS:
+            if position + 1 == numChars:
+                numberTokens.append(Number(currentNumber, currentNumberPositions))
+            elif row[position + 1] in SYMBOLS_TO_IGNORE or row[position + 1] in SYMBOLS:
                 # print(currentNumber)
                 numberTokens.append(Number(currentNumber, currentNumberPositions))
                 currentNumber = ""
